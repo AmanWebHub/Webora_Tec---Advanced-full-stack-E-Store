@@ -1,0 +1,132 @@
+.create-product-page {
+  min-height: 80vh;
+  color: #212529;
+}
+
+/* Form container */
+.create-product-page .create-product-form {
+  padding: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* Page heading */
+.create-product-page h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #212529;
+}
+
+/* Form labels */
+.create-product-page .form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+/* Inputs and textarea */
+.create-product-page .form-control {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #ced4da;
+  border-radius: 9px;
+  background-color: #ffffff;
+  color: #212529;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-product-page .form-control::placeholder {
+  color: #adb5bd;
+}
+
+.create-product-page .form-control:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.12);
+}
+
+.create-product-page textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Image URL helper text */
+.create-product-page .form-text {
+  margin-top: 0.5rem;
+  color: #6c757d;
+  font-size: 0.82rem;
+}
+
+/* Cancel button */
+.create-product-page .create-product-cancel {
+  padding: 0.6rem 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 9px;
+  background-color: #ffffff;
+  color: #495057;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.create-product-page .create-product-cancel:hover {
+  background-color: #f1f3f5;
+  border-color: #adb5bd;
+  color: #212529;
+}
+
+/* Create button */
+.create-product-page .create-product-submit {
+  padding: 0.8rem 1.25rem;
+  border: 1px solid #dc2626;
+  border-radius: 9px;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-product-page .create-product-submit:hover:not(:disabled) {
+  border-color: #b91c1c;
+  background-color: #b91c1c;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+.create-product-page .create-product-submit:focus-visible,
+.create-product-page .create-product-cancel:focus-visible {
+  outline: 3px solid rgba(220, 38, 38, 0.25);
+  outline-offset: 2px;
+}
+
+.create-product-page .create-product-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Error message */
+.create-product-page .alert {
+  border-radius: 9px;
+  font-size: 0.9rem;
+}
+
+/* Responsive layout */
+@media (max-width: 575.98px) {
+  .create-product-page {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .create-product-page .create-product-form {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .create-product-page h1 {
+    font-size: 1.5rem;
+  }
+}
