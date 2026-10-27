@@ -169,7 +169,7 @@ function CreateProduct() {
                   </>
                 ) : (
                   <>
-                    <i className="bi bi-plus-lg me-2" />
+                    <i className="bi bi-plus-lg me-2 " />
                     Create Product
                   </>
                 )}
