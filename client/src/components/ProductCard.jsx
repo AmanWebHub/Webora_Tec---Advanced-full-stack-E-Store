@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
 
         <div className="mt-auto">
           <p className="product-price mb-3">
-            $. {Number(price).toLocaleString("en-US", {
+            Rs. {Number(price).toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
