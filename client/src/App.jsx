@@ -5,6 +5,7 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login.jsx";
 import CreateProduct from "./pages/CreateProduct.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 function App() {
   const handleSearch = (query) => {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products/new" element={<CreateProduct />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         
       </Routes>
     </>
