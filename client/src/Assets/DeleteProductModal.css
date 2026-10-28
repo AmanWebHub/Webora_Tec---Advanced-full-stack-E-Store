@@ -1,0 +1,135 @@
+
+.delete-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  animation: deleteOverlayIn 0.2s ease;
+}
+
+.delete-modal {
+  width: 100%;
+  max-width: 400px;
+  padding: 1.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: deleteModalIn 0.2s ease;
+}
+
+.delete-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 1.5rem;
+}
+
+.delete-modal h2 {
+  margin: 0 0 0.65rem;
+  color: #111827;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.delete-modal-message {
+  margin-bottom: 1.4rem;
+  color: #6b7280;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.delete-modal-message strong {
+  color: #374151;
+}
+
+.delete-modal .alert {
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.delete-modal-actions button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 42px;
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delete-modal-cancel {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+}
+
+.delete-modal-cancel:hover:not(:disabled) {
+  background: #f3f4f6;
+}
+
+.delete-modal-confirm {
+  border: 1px solid #dc2626;
+  background: #dc2626;
+  color: #fff;
+}
+
+.delete-modal-confirm:hover:not(:disabled) {
+  border-color: #b91c1c;
+  background: #b91c1c;
+}
+
+.delete-modal-actions button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+@keyframes deleteOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes deleteModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .delete-modal {
+    padding: 1.4rem;
+  }
+
+  .delete-modal-actions {
+    flex-direction: column-reverse;
+  }
+}

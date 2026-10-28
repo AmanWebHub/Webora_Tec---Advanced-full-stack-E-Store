@@ -1,12 +1,21 @@
-
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useProductStore } from "../stores/productStore";
 import "../assets/AdminDashboard.css";
+import DeleteProductModal from "../components/DeleteProductModal";
 
 function AdminDashboard() {
+  const navigate = useNavigate();
   const products = useProductStore((state) => state.products);
   const fetchProducts = useProductStore((state) => state.fetchProducts);
+
+  const deleteProduct = useProductStore((state) => state.deleteProduct);
+
+  const [deletingId, setDeletingId] = useState(null);
+  const [actionError, setActionError] = useState("");
+
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [deleteError, setDeleteError] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -22,9 +31,7 @@ function AdminDashboard() {
         const result = await fetchProducts();
 
         if (result?.success === false) {
-          throw new Error(
-            result.message || "Unable to load products."
-          );
+          throw new Error(result.message || "Unable to load products.");
         }
       } catch (err) {
         if (active) {
@@ -44,6 +51,36 @@ function AdminDashboard() {
     };
   }, [fetchProducts]);
 
+  const handleDelete = async (product) => {
+    setDeleteError("");
+    setProductToDelete(product);
+  };
+
+  // Delete only after confirmation
+  const confirmDelete = async () => {
+    if (!productToDelete) return;
+
+    const product = productToDelete;
+
+    setDeletingId(product._id);
+    setDeleteError("");
+
+    try {
+      const result = await deleteProduct(product._id);
+
+      if (!result?.success) {
+        setDeleteError(result?.message || "Failed to delete product.");
+        return;
+      }
+
+      setProductToDelete(null);
+    } catch (error) {
+      setDeleteError("Something went wrong while deleting the product.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <div className="admin-layout">
       <aside className="admin-sidebar">
@@ -57,10 +94,7 @@ function AdminDashboard() {
         <p className="admin-sidebar-label">MANAGEMENT</p>
 
         <nav className="admin-sidebar-nav">
-          <Link
-            to="/admin/products"
-            className="admin-nav-link active"
-          >
+          <Link to="/admin/products" className="admin-nav-link active">
             <i className="bi bi-grid-1x2" />
             <span>Dashboard</span>
           </Link>
@@ -84,21 +118,16 @@ function AdminDashboard() {
             <h1>Dashboard</h1>
           </div>
 
-          <Link
-            to="/products/new"
-            className="admin-primary-button"
-          >
+          <Link to="/products/new" className="admin-primary-button">
             <i className="bi bi-plus-lg" />
             Add Product
-          </Link> 
+          </Link>
         </header>
 
         <section className="admin-welcome">
           <div>
             <h2>Product Management</h2>
-            <p>
-              Manage your store inventory from one place.
-            </p>
+            <p>Manage your store inventory from one place.</p>
           </div>
           <i className="bi bi-box-seam admin-welcome-icon" />
         </section>
@@ -133,6 +162,11 @@ function AdminDashboard() {
               {error}
             </div>
           )}
+          {actionError && (
+            <div className="alert alert-danger mx-3 mt-3" role="alert">
+              {actionError}
+            </div>
+          )}
 
           <div className="admin-table-wrapper">
             <table className="admin-products-table">
@@ -141,6 +175,7 @@ function AdminDashboard() {
                   <th>Product</th>
                   <th>Price</th>
                   <th>Description</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
 
@@ -188,17 +223,51 @@ function AdminDashboard() {
 
                       <td className="admin-product-price">
                         LKR{" "}
-                        {Number(product.price).toLocaleString(
-                          "en-LK",
-                          {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          }
-                        )}
+                        {Number(product.price).toLocaleString("en-LK", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </td>
 
                       <td className="admin-product-description">
                         {product.description}
+                      </td>
+
+                      <td>
+                        <div className="admin-product-actions">
+                          <button
+                            type="button"
+                            className="admin-action-button admin-edit-button"
+                            onClick={() =>
+                              navigate(`/products/${product._id}/edit`)
+                            }
+                            aria-label={`Edit ${product.name}`}
+                            title="Edit product"
+                          >
+                            <i className="bi bi-pencil-square" />
+                            <span>Edit</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            className="admin-action-button admin-delete-button"
+                            onClick={() => handleDelete(product)}
+                            disabled={deletingId === product._id}
+                            aria-label={`Delete ${product.name}`}
+                            title="Delete product"
+                          >
+                            {deletingId === product._id ? (
+                              <span className="spinner-border spinner-border-sm" />
+                            ) : (
+                              <i className="bi bi-trash3" />
+                            )}
+                            <span>
+                              {deletingId === product._id
+                                ? "Deleting..."
+                                : "Delete"}
+                            </span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))
@@ -208,6 +277,16 @@ function AdminDashboard() {
           </div>
         </section>
       </main>
+      <DeleteProductModal
+        product={productToDelete}
+        deleting={deletingId === productToDelete?._id}
+        error={deleteError}
+        onCancel={() => {
+          setProductToDelete(null);
+          setDeleteError("");
+        }}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }
