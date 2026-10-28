@@ -1,6 +1,5 @@
 
 import { Link } from "react-router-dom";
-import ProductGrid from "../components/ProductGrid";
 
 const Home = () => {
   return (
@@ -29,22 +28,6 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="container py-5">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <div>
-            <h2 className="fw-bold mb-1">Our Products</h2>
-            <p className="text-secondary mb-0">
-              Explore our latest collection.
-            </p>
-          </div>
-
-          <Link to="/shop" className="btn btn-outline-dark">
-            View All
-          </Link>
-        </div>
-
-        <ProductGrid />
-      </section>
     </>
   );
 };

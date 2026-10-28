@@ -1,5 +1,4 @@
-
-
+/* Product grid section */
 .product-grid-section {
   padding: 3rem 0;
   background-color: #f8f9fa;
@@ -9,9 +8,10 @@
   width: 100%;
 }
 
-/* Grid spacing */
+/* Grid layout and spacing */
 .product-grid {
   row-gap: 1.75rem;
+  align-items: stretch; /* changed from "start" so cards in a row match height */
 }
 
 /* Loading state */
