@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useProductStore } from "../stores/productStore"; 
+import { useProductStore } from "../stores/productStore";
 
 const CURRENCY = "Rs.";
 
@@ -21,7 +21,6 @@ const useHomeProducts = () => {
     };
   }, [fetchProducts]);
 
-  // Newest first: the hero shows the 3 newest, the grid shows up to 8.
   const newest = useMemo(
     () =>
       [...products].sort(

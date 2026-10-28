@@ -1,46 +1,30 @@
-
 import { Link } from "react-router-dom";
+import { formatPrice } from "../hooks/useHomeProducts";
+import ProductImage from "./ProductImage";
+import "../Assets/ProductCard.css";
+
 
 const ProductCard = ({ product }) => {
-  const { _id, name, price, description, image } = product;
+  const { _id, name, description, price } = product;
 
   return (
-    <div className="card product-card h-100">
+    <div className="pcard pcard-shop">
       <Link
         to={`/products/${_id}`}
-        className="product-image-wrapper"
+        className="pcard-imglink"
         aria-label={`View ${name}`}
       >
-        <img
-          src={image}
-          className="card-img-top product-image"
-          alt={name}
-          loading="lazy"
-        />
+        <ProductImage product={product} className="pcard-img" />
       </Link>
 
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-title product-title">{name}</h5>
+      <div className="pcard-body">
+        <span className="pcard-name">{name}</span>
+        <span className="pcard-desc">{description}</span>
+        <strong className="pcard-price">{formatPrice(price)}</strong>
 
-        <p className="card-text product-description">
-          {description}
-        </p>
-
-        <div className="mt-auto">
-          <p className="product-price mb-3">
-            Rs. {Number(price).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </p>
-
-          <Link
-            to={`/products/${_id}`}
-            className="btn btn-dark w-100"
-          >
-            View Product
-          </Link>
-        </div>
+        <Link to={`/products/${_id}`} className="pcard-action">
+          View details
+        </Link>
       </div>
     </div>
   );

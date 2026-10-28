@@ -1,0 +1,77 @@
+/* Colours and fonts come from Home.css (.home scope). */
+
+.pdp {
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+  min-height: 70vh;
+}
+
+.pdp-back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.pdp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.pdp-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 20px;
+  background: var(--sage);
+}
+
+.pdp-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pdp-name {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.pdp-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.pdp-desc {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 60ch;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.pdp-meta {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.pdp-related {
+  margin-top: clamp(3rem, 7vw, 5rem);
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+.pdp-related h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .pdp-grid { grid-template-columns: 1fr; }
+}
