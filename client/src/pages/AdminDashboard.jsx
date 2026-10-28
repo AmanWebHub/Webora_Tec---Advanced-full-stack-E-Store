@@ -1,85 +1,23 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useProductStore } from "../stores/productStore";
-import "../assets/AdminDashboard.css";
 import DeleteProductModal from "../components/DeleteProductModal";
+import { useAdminProducts } from "../hooks/useAdminProducts";
+import { useDeleteProduct } from "../hooks/useDeleteProduct";
+
+import "../assets/AdminDashboard.css";
 
 function AdminDashboard() {
   const navigate = useNavigate();
-  const products = useProductStore((state) => state.products);
-  const fetchProducts = useProductStore((state) => state.fetchProducts);
 
-  const deleteProduct = useProductStore((state) => state.deleteProduct);
+  const { products, loading, error } = useAdminProducts();
 
-  const [deletingId, setDeletingId] = useState(null);
-  const [actionError, setActionError] = useState("");
-
-  const [productToDelete, setProductToDelete] = useState(null);
-  const [deleteError, setDeleteError] = useState("");
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    let active = true;
-
-    const loadProducts = async () => {
-      setLoading(true);
-      setError("");
-
-      try {
-        const result = await fetchProducts();
-
-        if (result?.success === false) {
-          throw new Error(result.message || "Unable to load products.");
-        }
-      } catch (err) {
-        if (active) {
-          setError(err.message || "Unable to load products.");
-        }
-      } finally {
-        if (active) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadProducts();
-
-    return () => {
-      active = false;
-    };
-  }, [fetchProducts]);
-
-  const handleDelete = async (product) => {
-    setDeleteError("");
-    setProductToDelete(product);
-  };
-
-  // Delete only after confirmation
-  const confirmDelete = async () => {
-    if (!productToDelete) return;
-
-    const product = productToDelete;
-
-    setDeletingId(product._id);
-    setDeleteError("");
-
-    try {
-      const result = await deleteProduct(product._id);
-
-      if (!result?.success) {
-        setDeleteError(result?.message || "Failed to delete product.");
-        return;
-      }
-
-      setProductToDelete(null);
-    } catch (error) {
-      setDeleteError("Something went wrong while deleting the product.");
-    } finally {
-      setDeletingId(null);
-    }
-  };
+  const {
+    productToDelete,
+    deletingId,
+    deleteError,
+    handleDelete,
+    cancelDelete,
+    confirmDelete,
+  } = useDeleteProduct();
 
   return (
     <div className="admin-layout">
@@ -129,6 +67,7 @@ function AdminDashboard() {
             <h2>Product Management</h2>
             <p>Manage your store inventory from one place.</p>
           </div>
+
           <i className="bi bi-box-seam admin-welcome-icon" />
         </section>
 
@@ -162,11 +101,6 @@ function AdminDashboard() {
               {error}
             </div>
           )}
-          {actionError && (
-            <div className="alert alert-danger mx-3 mt-3" role="alert">
-              {actionError}
-            </div>
-          )}
 
           <div className="admin-table-wrapper">
             <table className="admin-products-table">
@@ -182,7 +116,7 @@ function AdminDashboard() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="3" className="admin-table-message">
+                    <td colSpan="4" className="admin-table-message">
                       <span
                         className="spinner-border spinner-border-sm me-2"
                         aria-hidden="true"
@@ -192,13 +126,13 @@ function AdminDashboard() {
                   </tr>
                 ) : error ? (
                   <tr>
-                    <td colSpan="3" className="admin-table-message">
+                    <td colSpan="4" className="admin-table-message">
                       Products could not be loaded.
                     </td>
                   </tr>
                 ) : products.length === 0 ? (
                   <tr>
-                    <td colSpan="3" className="admin-table-message">
+                    <td colSpan="4" className="admin-table-message">
                       <i className="bi bi-inbox admin-empty-icon" />
                       <p>No products found.</p>
                       <span>Add your first product to get started.</span>
@@ -261,6 +195,7 @@ function AdminDashboard() {
                             ) : (
                               <i className="bi bi-trash3" />
                             )}
+
                             <span>
                               {deletingId === product._id
                                 ? "Deleting..."
@@ -277,14 +212,12 @@ function AdminDashboard() {
           </div>
         </section>
       </main>
+
       <DeleteProductModal
         product={productToDelete}
         deleting={deletingId === productToDelete?._id}
         error={deleteError}
-        onCancel={() => {
-          setProductToDelete(null);
-          setDeleteError("");
-        }}
+        onCancel={cancelDelete}
         onConfirm={confirmDelete}
       />
     </div>
