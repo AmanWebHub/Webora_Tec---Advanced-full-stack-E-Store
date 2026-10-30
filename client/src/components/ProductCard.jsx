@@ -3,7 +3,7 @@ import { formatPrice } from "../hooks/useHomeProducts";
 import ProductImage from "./ProductImage";
 import "../Assets/ProductCard.css";
 
-
+// Shop page card: same design as the home card, plus a button to the details page.
 const ProductCard = ({ product }) => {
   const { _id, name, description, price } = product;
 

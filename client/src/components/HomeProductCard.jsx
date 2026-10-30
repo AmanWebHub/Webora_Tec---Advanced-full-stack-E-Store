@@ -3,7 +3,6 @@ import { formatPrice } from "../hooks/useHomeProducts";
 import ProductImage from "./ProductImage";
 import "../Assets/ProductCard.css";
 
-// Home page card: the whole card is one link to the details page.
 const HomeProductCard = ({ product }) => (
   <Link to={`/products/${product._id}`} className="pcard">
     <ProductImage product={product} className="pcard-img" />

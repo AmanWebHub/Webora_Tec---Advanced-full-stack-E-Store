@@ -1,8 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import useProductDetail from "../hooks/useProductDetail";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 import ProductDetailsView from "../components/ProductDetailsView";
 import RelatedProducts from "../components/RelatedProducts";
-import "../Assets/Home.css"; // shared colours, fonts and card styles
+import "../Assets/Home.css"; 
 import "../Assets/ProductDetails.css";
 
 const messages = {
@@ -15,7 +16,9 @@ const ProductDetails = () => {
   const { id } = useParams();
   const { product, related, status } = useProductDetail(id);
 
-  return (
+  useDocumentTitle(product?.name);  
+
+  return ( 
     <main className="home">
       <div className="container pdp">
         <Link to="/shop" className="home-link pdp-back">

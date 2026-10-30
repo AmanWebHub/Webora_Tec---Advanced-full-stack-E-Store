@@ -5,7 +5,6 @@ const CURRENCY = "Rs.";
 
 export const formatPrice = (n) => `${CURRENCY} ${Number(n).toLocaleString("en-US")}`;
 
-// Loads products and prepares what the Home page needs.
 const useHomeProducts = () => {
   const products = useProductStore((s) => s.products);
   const fetchProducts = useProductStore((s) => s.fetchProducts);

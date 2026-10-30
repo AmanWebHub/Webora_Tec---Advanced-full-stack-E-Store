@@ -59,7 +59,7 @@
 }
 .pcard-price { margin-top: 0.25rem; }
 
-/* Shop page only: the button that opens the details page */
+/* Shop page only: */
 .pcard-shop {
   display: flex;
   flex-direction: column;
