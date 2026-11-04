@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../stores/authStore.js";
 
-export const useLogin = () => {
+export function useLogin() {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
@@ -27,8 +27,8 @@ export const useLogin = () => {
     e.preventDefault();
     if (loading) return;
 
-    setLoading(true);
     setError("");
+    setLoading(true);
 
     try {
       const result = await login(formData);
@@ -48,12 +48,13 @@ export const useLogin = () => {
       setLoading(false);
     }
 
-    return {
+
+  };
+      return {
       formData,
       loading,
       error,
       handleChange,
       handleSubmit,
     };
-  };
-};
+}

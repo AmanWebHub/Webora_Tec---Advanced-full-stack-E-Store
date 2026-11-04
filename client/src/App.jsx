@@ -1,13 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Shop from "./pages/Shop";
-import Cart from "./pages/Cart";
+import Navbar from "./components/Navbar.jsx";
+import Home from "./pages/Home.jsx";
+import Shop from "./pages/Shop.jsx";
+import Cart from "./pages/Cart.jsx";
 import Login from "./pages/Login.jsx";
 import CreateProduct from "./pages/CreateProduct.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import EditProduct from "./pages/EditProduct.jsx";
 import ProductDetails from "./pages/ProductDetails.jsx";
+import Register from "./pages/Register.jsx";
 
 function App() {
   const handleSearch = (query) => {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/products/:id/edit" element={<EditProduct />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );
