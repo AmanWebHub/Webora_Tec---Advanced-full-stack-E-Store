@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavbar } from "../hooks/useNavbar";
 import "../assets/Navbar.css";
 
 const navLinks = [
@@ -9,12 +9,8 @@ const navLinks = [
   { label: "Categories", href: "/categories" },
 ];
 
-const Navbar = ({
-  cartCount = 0,
-  onSearch,
-  accountHref = "/login",
-  cartHref = "/cart",
-}) => {
+const Navbar = ({ cartCount = 0, onSearch, cartHref = "/cart" }) => {
+  const { user, isAdmin, isCheckingAuth, handleLogout } = useNavbar();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (event) => {
@@ -31,9 +27,7 @@ const Navbar = ({
     const navbarContent = document.getElementById("storeNavbar");
 
     if (navbarContent && window.bootstrap?.Collapse) {
-      window.bootstrap.Collapse
-        .getInstance(navbarContent)
-        ?.hide();
+      window.bootstrap.Collapse.getInstance(navbarContent)?.hide();
     }
   };
 
@@ -110,22 +104,51 @@ const Navbar = ({
           </ul>
 
           {/* Desktop search */}
-          <div className="d-none d-lg-block">
-            {renderSearchForm()}
-          </div>
+          <div className="d-none d-lg-block">{renderSearchForm()}</div>
 
           {/* Account and cart */}
           <div className="d-flex align-items-center gap-3 ms-lg-3 mt-3 mt-lg-0">
-            <Link
-              to={accountHref}
-              className="store-action"
-              aria-label="Account or login"
-              title="Account"
-              onClick={closeMobileMenu}
-            >
-              <i className="bi bi-person" aria-hidden="true" />
-              <span className="d-lg-none ms-2">Account / Login</span>
-            </Link>
+            {!isCheckingAuth &&
+              (user ? (
+                <>
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="store-action"
+                      title="Admin dashboard"
+                      onClick={closeMobileMenu}
+                    >
+                      <i className="bi bi-speedometer2" aria-hidden="true" />
+                      <span className="d-lg-none ms-2">Dashboard</span>
+                    </Link>
+                  )}
+
+                  <span className="small text-muted d-none d-lg-inline">
+                    {user.name}
+                  </span>
+
+                  <button
+                    type="button"
+                    className="btn btn-outline-dark btn-sm"
+                    onClick={() => {
+                      closeMobileMenu();
+                      handleLogout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="store-action"
+                  title="Login"
+                  onClick={closeMobileMenu}
+                >
+                  <i className="bi bi-person" aria-hidden="true" />
+                  <span className="d-lg-none ms-2">Login</span>
+                </Link>
+              ))}
 
             <Link
               to={cartHref}
@@ -136,18 +159,14 @@ const Navbar = ({
             >
               <i className="bi bi-bag" aria-hidden="true" />
 
-              <span className="cart-count">
-                {cartCount}
-              </span>
+              <span className="cart-count">{cartCount}</span>
 
               <span className="d-lg-none ms-2">Shopping Cart</span>
             </Link>
           </div>
 
           {/* Mobile search */}
-          <div className="d-lg-none mt-3 mb-3">
-            {renderSearchForm(true)}
-          </div>
+          <div className="d-lg-none mt-3 mb-3">{renderSearchForm(true)}</div>
         </div>
       </div>
     </nav>

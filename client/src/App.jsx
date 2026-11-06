@@ -13,6 +13,7 @@ import Register from "./pages/Register.jsx";
 
 import { useAuthStore } from "./stores/authStore";
 import AdminRoute from "./components/AdminRoute";
+import GuestRoute from "./components/GuestRoute";
 
 function App() {
   const handleSearch = (query) => {
@@ -33,14 +34,17 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/register" element={<Register />} />
 
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/products/new" element={<CreateProduct />} />
           <Route path="/products/:id/edit" element={<EditProduct />} />
+        </Route>
+
+        <Route element={<GuestRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
     </>
